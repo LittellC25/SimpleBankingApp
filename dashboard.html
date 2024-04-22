@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Banking Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Simple Banking Dashboard</h1>
+    </header>
+
+    <main>
+        <!-- Dashboard content goes here -->
+        <p>Welcome to your banking dashboard!</p>
+        <div class="account">
+            <h2>Checking Account</h2>
+            <p id="checkingBalance">$1000</p>
+            <label for="checkingAmount">Amount:</label>
+            <input type="number" id="checkingAmount">
+            <button onclick="deposit('checking')">Deposit</button>
+            <button onclick="withdraw('checking')">Withdraw</button>
+        </div>
+
+        <div class="account">
+            <h2>Savings Account</h2>
+            <p id="savingsBalance">$500</p>
+            <label for="savingsAmount">Amount:</label>
+            <input type="number" id="savingsAmount">
+            <button onclick="deposit('savings')">Deposit</button>
+            <button onclick="withdraw('savings')">Withdraw</button>
+        </div>
+
+        <div class="transfer">
+            <label for="transferAmount">Transfer Amount:</label>
+            <input type="number" id="transferAmount">
+            <select id="transferDirection">
+                <option value="checkingToSavings">Checking to Savings</option>
+                <option value="savingsToChecking">Savings to Checking</option>
+            </select>
+            <button onclick="transfer()">Transfer</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Simple Banking</p>
+    </footer>
+
+    <script>
+        // Initialize balances
+        let checkingBalance = 1000;
+        let savingsBalance = 500;
+
+        // Function to update displayed balances
+        function updateBalance() {
+            document.getElementById('checkingBalance').innerText = '$' + checkingBalance;
+            document.getElementById('savingsBalance').innerText = '$' + savingsBalance;
+        }
+
+        // Function to handle deposit
+        function deposit(account) {
+            let amount = parseFloat(document.getElementById(account + 'Amount').value);
+            if (!isNaN(amount) && amount > 0) {
+                if (account === 'checking') {
+                    checkingBalance += amount;
+                } else if (account === 'savings') {
+                    savingsBalance += amount;
+                }
+                updateBalance();
+            }
+        }
+
+        // Function to handle withdrawal
+        function withdraw(account) {
+            let amount = parseFloat(document.getElementById(account + 'Amount').value);
+            if (!isNaN(amount) && amount > 0) {
+                if (account === 'checking' && amount <= checkingBalance) {
+                    checkingBalance -= amount;
+                } else if (account === 'savings' && amount <= savingsBalance) {
+                    savingsBalance -= amount;
+                }
+                updateBalance();
+            }
+        }
+
+        // Function to handle transfer between accounts
+        function transfer() {
+            let amount = parseFloat(document.getElementById('transferAmount').value);
+            let direction = document.getElementById('transferDirection').value;
+            
+            if (!isNaN(amount) && amount > 0) {
+                if (direction === 'checkingToSavings' && amount <= checkingBalance) {
+                    checkingBalance -= amount;
+                    savingsBalance += amount;
+                } else if (direction === 'savingsToChecking' && amount <= savingsBalance) {
+                    savingsBalance -= amount;
+                    checkingBalance += amount;
+                }
+                updateBalance();
+            }
+        }
+    </script>
+</body>
+</html>
