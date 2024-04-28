@@ -121,7 +121,8 @@
             </select>
 
             <label for="transfer-amount">Amount:</label>
-            <input type="number" id="transfer-amount" min="1" step="0.01">
+            <input
+type="number" id="transfer-amount" min="1" step="0.01">
 
             <button onclick="transferFunds()">Transfer</button>
         </div>
@@ -134,9 +135,21 @@
 
         let transactionCount = 0;
 
-        // Function to get account balance (placeholder function)
+        // Starting balances for accounts
+        let checkingBalance = 1000;
+        let savingsBalance = 2000;
+        let mortgageBalance = 150000;
+        let carLoanBalance = 25000;
+
+        // Function to get account balance
         function getBalance() {
-            document.getElementById("balance-info").innerText = "Balance information: (Simulated Data)";
+            const balanceInfo = `
+                Checking: $${checkingBalance.toFixed(2)}\n
+                Savings: $${savingsBalance.toFixed(2)}\n
+                Mortgage: $${mortgageBalance.toFixed(2)}\n
+                Car Loan: $${carLoanBalance.toFixed(2)}
+            `;
+            document.getElementById("balance-info").innerText = balanceInfo;
         }
 
         // Function to deposit funds
@@ -155,7 +168,24 @@
                 return;
             }
 
-            console.log(`Deposited ${amount} into ${accountType} account`);
+            switch (accountType) {
+                case "checking":
+                    checkingBalance += amount;
+                    break;
+                case "savings":
+                    savingsBalance += amount;
+                    break;
+                case "loan":
+                case "mortgage":
+                    mortgageBalance -= amount; // Mortgage payments reduce balance
+                    break;
+                case "car-loan":
+                    carLoanBalance -= amount; // Car loan payments reduce balance
+                    break;
+                default:
+                    console.error("Unknown account type");
+            }
+
             alert(`Deposited ${amount} into ${accountType} account`);
         }
 
@@ -169,12 +199,21 @@
                 return;
             }
 
-            transactionCount += 1;
             if (transactionCount > MAX_TRANSACTIONS) {
                 alert("Transaction limit reached");
                 return;
             }
 
+            if (accountType === "checking" && checkingBalance >= amount) {
+                checkingBalance -= amount;
+            } else if (accountType === "savings" && savingsBalance >= amount) {
+                savingsBalance -= amount;
+            } else {
+                alert("Insufficient funds");
+                return;
+            }
+
+            transactionCount += 1;
             console.log(`Withdrew ${amount} from ${accountType} account`);
             alert(`Withdrew ${amount} from ${accountType} account`);
         }
@@ -188,7 +227,6 @@
                 return;
             }
 
-            transactionCount += 1;
             if (transactionCount > MAX_TRANSACTIONS) {
                 alert("Transaction limit reached");
                 return;
@@ -207,6 +245,8 @@
                 return;
             }
 
+            mortgageBalance -= amount;
+
             console.log(`Paid ${amount} for mortgage`);
             alert(`Paid ${amount} for mortgage`);
         }
@@ -219,6 +259,8 @@
                 alert("Amount must be greater than 0");
                 return;
             }
+
+            carLoanBalance -= amount;
 
             console.log(`Paid ${amount} for car loan`);
             alert(`Paid ${amount} for car loan`);
@@ -240,6 +282,18 @@
                 return;
             }
 
+            if (fromAccount === "checking") {
+                checkingBalance -= amount;
+            } else if (fromAccount === "savings") {
+                savingsBalance -= amount;
+            }
+
+            if (toAccount === "checking") {
+                checkingBalance += amount;
+            } else if (toAccount === "savings") {
+                savingsBalance += amount;
+            }
+
             console.log(`Transferred ${amount} from ${fromAccount} to ${toAccount}`);
             alert(`Transferred ${amount} from ${fromAccount} to ${toAccount}`);
         }
@@ -247,6 +301,7 @@
     </script>
 </body>
 </html>
+
 
 
 
