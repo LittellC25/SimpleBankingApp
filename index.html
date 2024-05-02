@@ -121,8 +121,7 @@
             </select>
 
             <label for="transfer-amount">Amount:</label>
-            <input
-type="number" id="transfer-amount" min="1" step="0.01">
+            <input type="number" id="transfer-amount" min="1" step="0.01">
 
             <button onclick="transferFunds()">Transfer</button>
         </div>
@@ -140,16 +139,18 @@ type="number" id="transfer-amount" min="1" step="0.01">
         let savingsBalance = 2000;
         let mortgageBalance = 150000;
         let carLoanBalance = 25000;
+        let creditCardBalance = 5000;
 
         // Function to get account balance
         function getBalance() {
             const balanceInfo = `
-                Checking: $${checkingBalance.toFixed(2)}\n
-                Savings: $${savingsBalance.toFixed(2)}\n
-                Mortgage: $${mortgageBalance.toFixed(2)}\n
-                Car Loan: $${carLoanBalance.toFixed(2)}
+                Checking: $${checkingBalance.toFixed(2)}<br>
+                Savings: $${savingsBalance.toFixed(2)}<br>
+                Mortgage: $${mortgageBalance.toFixed(2)}<br>
+                Car Loan: $${carLoanBalance.toFixed(2)}<br>
+                Credit Card: $${creditCardBalance.toFixed(2)}
             `;
-            document.getElementById("balance-info").innerText = balanceInfo;
+            document.getElementById("balance-info").innerHTML = balanceInfo;
         }
 
         // Function to deposit funds
@@ -181,6 +182,9 @@ type="number" id="transfer-amount" min="1" step="0.01">
                     break;
                 case "car-loan":
                     carLoanBalance -= amount; // Car loan payments reduce balance
+                    break;
+                case "credit-card":
+                    creditCardBalance += amount;
                     break;
                 default:
                     console.error("Unknown account type");
@@ -222,6 +226,11 @@ type="number" id="transfer-amount" min="1" step="0.01">
         function cashAdvance() {
             const amount = parseFloat(document.getElementById("credit-advance-amount").value);
 
+            if (amount > creditCardBalance) {
+                alert("Insufficient credit card balance");
+                return;
+            }
+
             if (amount > MAX_WITHDRAWAL) {
                 alert("Maximum cash advance limit is $500.00");
                 return;
@@ -231,6 +240,8 @@ type="number" id="transfer-amount" min="1" step="0.01">
                 alert("Transaction limit reached");
                 return;
             }
+
+            creditCardBalance -= amount;
 
             console.log(`Cash advance of ${amount} on credit card`);
             alert(`Cash advance of ${amount} on credit card`);
@@ -286,12 +297,16 @@ type="number" id="transfer-amount" min="1" step="0.01">
                 checkingBalance -= amount;
             } else if (fromAccount === "savings") {
                 savingsBalance -= amount;
+            } else if (fromAccount === "credit-card") {
+                creditCardBalance -= amount;
             }
 
             if (toAccount === "checking") {
                 checkingBalance += amount;
             } else if (toAccount === "savings") {
                 savingsBalance += amount;
+            } else if (toAccount === "credit-card") {
+                creditCardBalance += amount;
             }
 
             console.log(`Transferred ${amount} from ${fromAccount} to ${toAccount}`);
@@ -301,6 +316,7 @@ type="number" id="transfer-amount" min="1" step="0.01">
     </script>
 </body>
 </html>
+
 
 
 
