@@ -8,17 +8,11 @@
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
-            background-color: #f0f0f0; /* Added background color */
-            display: flex;
-            justify-content: center; /* Center content horizontally */
-            align-items: center; /* Center content vertically */
-            min-height: 100vh; /* Ensure content takes up full viewport height */
         }
         .account-section {
             border: 1px solid #ccc;
             padding: 10px;
             margin-bottom: 20px;
-            background-color: #d0ffd0; /* Added green background color */
         }
         .form-section {
             margin-bottom: 10px;
@@ -30,114 +24,295 @@
     </style>
 </head>
 <body>
-    <div>
-        <h1>Welcome to DSCB Bank</h1>
+    <h1>Welcome to DSCB Bank</h1>
 
-        <!-- Account Balance Section -->
-        <div class="account-section">
-            <h2>Account Balance Information</h2>
-            <button onclick="getBalance()">Get Balance</button>
-            <div id="balance-info"></div>
+    <!-- Account Balance Section -->
+    <div class="account-section">
+        <h2>Account Balance Information</h2>
+        <button onclick="getBalance()">Get Balance</button>
+        <div id="balance-info"></div>
+    </div>
+
+    <!-- Deposits and Withdrawals -->
+    <div class="account-section">
+        <h2>Deposit Funds</h2>
+        <div class="form-section">
+            <label for="deposit-account">Account Type:</label>
+            <select id="deposit-account">
+                <option value="checking">Checking</option>
+                <option value="savings">Savings</option>
+                <option value="loan">Loan</option>
+                <option value="mortgage">Mortgage</option>
+                <option value="car-loan">Car Loan</option>
+                <option value="credit-card">Credit Card</option>
+            </select>
+
+            <label for="deposit-amount">Amount:</label>
+            <input type="number" id="deposit-amount" min="1" step="0.01">
+
+            <button onclick="depositFunds()">Deposit</button>
         </div>
+    </div>
 
-        <!-- Deposits and Withdrawals -->
-        <div class="account-section">
-            <h2>Deposit Funds</h2>
-            <div class="form-section">
-                <label for="deposit-account">Account Type:</label>
-                <select id="deposit-account">
-                    <option value="checking">Checking</option>
-                    <option value="savings">Savings</option>
-                    <option value="loan">Loan</option>
-                    <option value="mortgage">Mortgage</option>
-                    <option value="car-loan">Car Loan</option>
-                    <option value="credit-card">Credit Card</option>
-                </select>
+    <div class="account-section">
+        <h2>Withdraw Cash</h2>
+        <div class="form-section">
+            <label for="withdraw-account">Account Type:</label>
+            <select id="withdraw-account">
+                <option value="checking">Checking</option>
+                <option value="savings">Savings</option>
+            </select>
 
-                <label for="deposit-amount">Amount:</label>
-                <input type="number" id="deposit-amount" min="1" step="0.01">
+            <label for="withdraw-amount">Amount:</label>
+            <input type="number" id="withdraw-amount" min="1" step="0.01">
 
-                <button onclick="depositFunds()">Deposit</button>
-            </div>
+            <button onclick="withdrawCash()">Withdraw</button>
         </div>
+    </div>
 
-        <div class="account-section">
-            <h2>Withdraw Cash</h2>
-            <div class="form-section">
-                <label for="withdraw-account">Account Type:</label>
-                <select id="withdraw-account">
-                    <option value="checking">Checking</option>
-                    <option value="savings">Savings</option>
-                </select>
+    <!-- Credit Card Cash Advances -->
+    <div class="account-section">
+        <h2>Credit Card Cash Advances</h2>
+        <div class="form-section">
+            <label for="credit-advance-amount">Amount:</label>
+            <input type="number" id="credit-advance-amount" min="1" step="0.01">
 
-                <label for="withdraw-amount">Amount:</label>
-                <input type="number" id="withdraw-amount" min="1" step="0.01">
-
-                <button onclick="withdrawCash()">Withdraw</button>
-            </div>
+            <button onclick="cashAdvance()">Get Cash</button>
         </div>
+    </div>
 
-        <!-- Credit Card Cash Advances -->
-        <div class="account-section">
-            <h2>Credit Card Cash Advances</h2>
-            <div class="form-section">
-                <label for="credit-advance-amount">Amount:</label>
-                <input type="number" id="credit-advance-amount" min="1" step="0.01">
-
-                <button onclick="cashAdvance()">Get Cash</button>
-            </div>
+    <!-- Mortgage and Car Loan Payments -->
+    <div class="account-section">
+        <h2>Mortgage and Car Loan Payments</h2>
+        <div class="form-section">
+            <label for="mortgage-payment">Mortgage Payment Amount:</label>
+            <input type="number" id="mortgage-payment" min="1" step="0.01">
+            <button onclick="payMortgage()">Pay Mortgage</button>
         </div>
-
-        <!-- Mortgage and Car Loan Payments -->
-        <div class="account-section">
-            <h2>Mortgage and Car Loan Payments</h2>
-            <div class="form-section">
-                <label for="mortgage-payment">Mortgage Payment Amount:</label>
-                <input type="number" id="mortgage-payment" min="1" step="0.01">
-                <button onclick="payMortgage()">Pay Mortgage</button>
-            </div>
-            <div class="form-section">
-                <label for="car-loan-payment">Car Loan Payment Amount:</label>
-                <input type="number" id="car-loan-payment" min="1" step="0.01">
-                <button onclick="payCarLoan()">Pay Car Loan</button>
-            </div>
+        <div class="form-section">
+            <label for="car-loan-payment">Car Loan Payment Amount:</label>
+            <input type="number" id="car-loan-payment" min="1" step="0.01">
+            <button onclick="payCarLoan()">Pay Car Loan</button>
         </div>
+    </div>
 
-        <!-- Fund Transfers -->
-        <div class="account-section">
-            <h2>Fund Transfers</h2>
-            <div class="form-section">
-                <label for="from-account">From Account:</label>
-                <select id="from-account">
-                    <option value="checking">Checking</option>
-                    <option value="savings">Savings</option>
-                    <option value="loan">Loan</option>
-                    <option value="mortgage">Mortgage</option>
-                    <option value="car-loan">Car Loan</option>
-                    <option value="credit-card">Credit Card</option>
-                </select>
+    <!-- Fund Transfers -->
+    <div class="account-section">
+        <h2>Fund Transfers</h2>
+        <div class="form-section">
+            <label for="from-account">From Account:</label>
+            <select id="from-account">
+                <option value="checking">Checking</option>
+                <option value="savings">Savings</option>
+                <option value="loan">Loan</option>
+                <option value="mortgage">Mortgage</option>
+                <option value="car-loan">Car Loan</option>
+                <option value="credit-card">Credit Card</option>
+            </select>
 
-                <label for="to-account">To Account:</label>
-                <select id="to-account">
-                    <option value="checking">Checking</option>
-                    <option value="savings">Savings</option>
-                    <option value="loan">Loan</option>
-                    <option value="mortgage">Mortgage</option>
-                    <option value="car-loan">Car Loan</option>
-                    <option value="credit-card">Credit Card</option>
-                </select>
+            <label for="to-account">To Account:</label>
+            <select id="to-account">
+                <option value="checking">Checking</option>
+                <option value="savings">Savings</option>
+                <option value="loan">Loan</option>
+                <option value="mortgage">Mortgage</option>
+                <option value="car-loan">Car Loan</option>
+                <option value="credit-card">Credit Card</option>
+            </select>
 
-                <label for="transfer-amount">Amount:</label>
-                <input type="number" id="transfer-amount" min="1" step="0.01">
+            <label for="transfer-amount">Amount:</label>
+            <input type="number" id="transfer-amount" min="1" step="0.01">
 
-                <button onclick="transferFunds()">Transfer</button>
-            </div>
+            <button onclick="transferFunds()">Transfer</button>
         </div>
     </div>
 
     <!-- JavaScript Functions -->
     <script>
-        // JavaScript functions go here
+        const MAX_WITHDRAWAL = 500;
+        const MAX_TRANSACTIONS = 10;
+
+        let transactionCount = 0;
+
+        // Starting balances for accounts
+        let checkingBalance = 1000;
+        let savingsBalance = 2000;
+        let mortgageBalance = 150000;
+        let carLoanBalance = 25000;
+        let creditCardBalance = 5000;
+
+        // Function to get account balance
+        function getBalance() {
+            const balanceInfo = `
+                Checking: $${checkingBalance.toFixed(2)}<br>
+                Savings: $${savingsBalance.toFixed(2)}<br>
+                Mortgage: $${mortgageBalance.toFixed(2)}<br>
+                Car Loan: $${carLoanBalance.toFixed(2)}<br>
+                Credit Card: $${creditCardBalance.toFixed(2)}
+            `;
+            document.getElementById("balance-info").innerHTML = balanceInfo;
+        }
+
+        // Function to deposit funds
+        function depositFunds() {
+            const accountType = document.getElementById("deposit-account").value;
+            const amount = parseFloat(document.getElementById("deposit-amount").value);
+
+            if (amount <= 0) {
+                alert("Amount must be greater than 0");
+                return;
+            }
+
+            transactionCount += 1;
+            if (transactionCount > MAX_TRANSACTIONS) {
+                alert("Transaction limit reached");
+                return;
+            }
+
+            switch (accountType) {
+                case "checking":
+                    checkingBalance += amount;
+                    break;
+                case "savings":
+                    savingsBalance += amount;
+                    break;
+                case "loan":
+                case "mortgage":
+                    mortgageBalance -= amount; // Mortgage payments reduce balance
+                    break;
+                case "car-loan":
+                    carLoanBalance -= amount; // Car loan payments reduce balance
+                    break;
+                case "credit-card":
+                    creditCardBalance += amount;
+                    break;
+                default:
+                    console.error("Unknown account type");
+            }
+
+            alert(`Deposited ${amount} into ${accountType} account`);
+        }
+
+        // Function to withdraw cash
+        function withdrawCash() {
+            const accountType = document.getElementById("withdraw-account").value;
+            const amount = parseFloat(document.getElementById("withdraw-amount").value);
+
+            if (amount > MAX_WITHDRAWAL) {
+                alert("Maximum withdrawal limit is $500.00");
+                return;
+            }
+
+            if (transactionCount > MAX_TRANSACTIONS) {
+                alert("Transaction limit reached");
+                return;
+            }
+
+            if (accountType === "checking" && checkingBalance >= amount) {
+                checkingBalance -= amount;
+            } else if (accountType === "savings" && savingsBalance >= amount) {
+                savingsBalance -= amount;
+            } else {
+                alert("Insufficient funds");
+                return;
+            }
+
+            transactionCount += 1;
+            console.log(`Withdrew ${amount} from ${accountType} account`);
+            alert(`Withdrew ${amount} from ${accountType} account`);
+        }
+
+        // Function to cash advance on credit card
+        function cashAdvance() {
+            const amount = parseFloat(document.getElementById("credit-advance-amount").value);
+
+            if (amount > creditCardBalance) {
+                alert("Insufficient credit card balance");
+                return;
+            }
+
+            if (amount > MAX_WITHDRAWAL) {
+                alert("Maximum cash advance limit is $500.00");
+                return;
+            }
+
+            if (transactionCount > MAX_TRANSACTIONS) {
+                alert("Transaction limit reached");
+                return;
+            }
+
+            creditCardBalance -= amount;
+
+            console.log(`Cash advance of ${amount} on credit card`);
+            alert(`Cash advance of ${amount} on credit card`);
+        }
+
+        // Function to pay mortgage
+        function payMortgage() {
+            const amount = parseFloat(document.getElementById("mortgage-payment").value);
+
+            if (amount <= 0) {
+                alert("Amount must be greater than 0");
+                return;
+            }
+
+            mortgageBalance -= amount;
+
+            console.log(`Paid ${amount} for mortgage`);
+            alert(`Paid ${amount} for mortgage`);
+        }
+
+        // Function to pay car loan
+        function payCarLoan() {
+            const amount = parseFloat(document.getElementById("car-loan-payment").value);
+
+            if (amount <= 0) {
+                alert("Amount must be greater than 0");
+                return;
+            }
+
+            carLoanBalance -= amount;
+
+            console.log(`Paid ${amount} for car loan`);
+            alert(`Paid ${amount} for car loan`);
+        }
+
+        // Function to transfer funds
+        function transferFunds() {
+            const fromAccount = document.getElementById("from-account").value;
+            const toAccount = document.getElementById("to-account").value;
+            const amount = parseFloat(document.getElementById("transfer-amount").value);
+
+            if (fromAccount === toAccount) {
+                alert("Cannot transfer to the same account");
+                return;
+            }
+
+            if (amount <= 0) {
+                alert("Amount must be greater than 0");
+                return;
+            }
+
+            if (fromAccount === "checking") {
+                checkingBalance -= amount;
+            } else if (fromAccount === "savings") {
+                savingsBalance -= amount;
+            } else if (fromAccount === "credit-card") {
+                creditCardBalance -= amount;
+            }
+
+            if (toAccount === "checking") {
+                checkingBalance += amount;
+            } else if (toAccount === "savings") {
+                savingsBalance += amount;
+            } else if (toAccount === "credit-card") {
+                creditCardBalance += amount;
+            }
+
+            console.log(`Transferred ${amount} from ${fromAccount} to ${toAccount}`);
+            alert(`Transferred ${amount} from ${fromAccount} to ${toAccount}`);
+        }
+
     </script>
 </body>
 </html>
